@@ -110,6 +110,29 @@
     margin-top: 3px;
   }
 
+  .backup-buttons {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    position: relative; z-index: 1;
+  }
+  .backup-btn {
+    background: linear-gradient(135deg, var(--sky), var(--pink));
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: white;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    transition: opacity .2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .backup-btn:hover { opacity: .85; }
+
   /* quote banner */
   .quote-banner {
     background: linear-gradient(135deg, var(--sky) 0%, var(--pink) 100%);
@@ -621,6 +644,9 @@
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--sky-light); border-radius: 10px; }
+
+  /* Hidden file input */
+  #importFile { display: none; }
 </style>
 </head>
 <body>
@@ -638,6 +664,11 @@
         <div class="big-num" id="totalHrs">0h</div>
         <div class="label">of 152h</div>
       </div>
+    </div>
+    <div class="backup-buttons">
+      <button class="backup-btn" onclick="exportData()" title="Download backup"><i class="ti ti-download"></i> Export</button>
+      <button class="backup-btn" onclick="document.getElementById('importFile').click()" title="Upload backup"><i class="ti ti-upload"></i> Import</button>
+      <input type="file" id="importFile" accept=".json" onchange="importData(event)">
     </div>
     <div class="quote-banner">
       <i class="ti ti-quote q-icon"></i>
@@ -815,6 +846,54 @@ async function load(){
 function sv(){
   const keys = ['hrs','top','hab','todo','notes','mood'];
   keys.forEach(k=>window.storage.set('p26_'+k,JSON.stringify(ST[k])).catch(()=>{}));
+}
+
+// ── EXPORT/IMPORT ──
+function exportData(){
+  const backup = {
+    timestamp: new Date().toISOString(),
+    data: {
+      hrs: ST.hrs,
+      top: ST.top,
+      hab: ST.hab,
+      exp: ST.exp,
+      todo: ST.todo,
+      notes: ST.notes,
+      mood: ST.mood,
+      quoteIdx: ST.quoteIdx
+    }
+  };
+  const json = JSON.stringify(backup, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `planner-backup-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  alert('✅ Backup downloaded! Keep it safe. 💾');
+}
+
+function importData(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try{
+      const backup = JSON.parse(e.target.result);
+      if(!backup.data) throw new Error('Invalid backup format');
+      Object.assign(ST, backup.data);
+      sv();
+      render();
+      alert('✅ Data restored! Your planner is back. 🎉');
+      document.getElementById('importFile').value = '';
+    }catch(err){
+      alert('❌ Error restoring backup: '+err.message);
+    }
+  };
+  reader.readAsText(file);
 }
 
 // ── QUOTES ──
