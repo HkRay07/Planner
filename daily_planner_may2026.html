@@ -110,29 +110,6 @@
     margin-top: 3px;
   }
 
-  .backup-buttons {
-    display: flex;
-    gap: 6px;
-    margin-top: 8px;
-    position: relative; z-index: 1;
-  }
-  .backup-btn {
-    background: linear-gradient(135deg, var(--sky), var(--pink));
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    color: white;
-    cursor: pointer;
-    font-size: 11px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    transition: opacity .2s;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .backup-btn:hover { opacity: .85; }
-
   /* quote banner */
   .quote-banner {
     background: linear-gradient(135deg, var(--sky) 0%, var(--pink) 100%);
@@ -644,9 +621,6 @@
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--sky-light); border-radius: 10px; }
-
-  /* Hidden file input */
-  #importFile { display: none; }
 </style>
 </head>
 <body>
@@ -664,11 +638,6 @@
         <div class="big-num" id="totalHrs">0h</div>
         <div class="label">of 152h</div>
       </div>
-    </div>
-    <div class="backup-buttons">
-      <button class="backup-btn" onclick="exportData()" title="Download backup"><i class="ti ti-download"></i> Export</button>
-      <button class="backup-btn" onclick="document.getElementById('importFile').click()" title="Upload backup"><i class="ti ti-upload"></i> Import</button>
-      <input type="file" id="importFile" accept=".json" onchange="importData(event)">
     </div>
     <div class="quote-banner">
       <i class="ti ti-quote q-icon"></i>
@@ -833,74 +802,63 @@ const MOODS = ['😊','😌','😐','😔','😤','🥰','😴','💪'];
 let ST = {hrs:{},top:{},hab:{},exp:{},todo:{},notes:{},mood:{},selDay:13,lifeDay:13,quoteIdx:0};
 let edDay = null;
 
-// ── STORAGE ──
+// ── STORAGE WITH AUTO-SYNC TO CLOUD ──
+const CLOUD_API = 'https://api.jsonbin.io/v3/b';
+const BIN_ID = localStorage.getItem('plannerBinId');
+
+async function saveToCloud(){
+  if(!BIN_ID) return;
+  const backup = {hrs:ST.hrs,top:ST.top,hab:ST.hab,exp:ST.exp,todo:ST.todo,notes:ST.notes,mood:ST.mood,quoteIdx:ST.quoteIdx};
+  try{
+    await fetch(`${CLOUD_API}/${BIN_ID}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json','X-Master-Key': '$2a$10$n3JdCQEjiBj7AQSUxs7kge4AH3BEzuZ7vWbJ4JxIGVzw3K.kLf9l6'},
+      body: JSON.stringify(backup)
+    });
+  }catch(e){}
+}
+
+async function initCloud(){
+  if(BIN_ID) return;
+  const backup = {hrs:{},top:{},hab:{},exp:{},todo:{},notes:{},mood:{},quoteIdx:0};
+  try{
+    const r = await fetch(CLOUD_API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json','X-Master-Key': '$2a$10$n3JdCQEjiBj7AQSUxs7kge4AH3BEzuZ7vWbJ4JxIGVzw3K.kLf9l6'},
+      body: JSON.stringify(backup)
+    });
+    const d = await r.json();
+    localStorage.setItem('plannerBinId', d.metadata.id);
+    window.location.reload();
+  }catch(e){}
+}
+
+async function loadFromCloud(){
+  if(!BIN_ID) return;
+  try{
+    const r = await fetch(`${CLOUD_API}/${BIN_ID}`, {
+      headers: {'X-Master-Key': '$2a$10$n3JdCQEjiBj7AQSUxs7kge4AH3BEzuZ7vWbJ4JxIGVzw3K.kLf9l6'}
+    });
+    const d = await r.json();
+    Object.assign(ST, d.record);
+  }catch(e){}
+}
+
 async function load(){
-  const keys = ['hrs','top','hab','todo','notes','mood'];
-  for(const k of keys){
-    try{const r=await window.storage.get('p26_'+k);if(r)ST[k]=JSON.parse(r.value);}catch(e){}
-  }
-  try{const r=await window.storage.get('p26_qi');if(r)ST.quoteIdx=parseInt(r.value)||0;}catch(e){}
+  await loadFromCloud();
   render();
+  setInterval(saveToCloud, 30000);
 }
 
 function sv(){
-  const keys = ['hrs','top','hab','todo','notes','mood'];
-  keys.forEach(k=>window.storage.set('p26_'+k,JSON.stringify(ST[k])).catch(()=>{}));
-}
-
-// ── EXPORT/IMPORT ──
-function exportData(){
-  const backup = {
-    timestamp: new Date().toISOString(),
-    data: {
-      hrs: ST.hrs,
-      top: ST.top,
-      hab: ST.hab,
-      exp: ST.exp,
-      todo: ST.todo,
-      notes: ST.notes,
-      mood: ST.mood,
-      quoteIdx: ST.quoteIdx
-    }
-  };
-  const json = JSON.stringify(backup, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `planner-backup-${new Date().toISOString().split('T')[0]}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  alert('✅ Backup downloaded! Keep it safe. 💾');
-}
-
-function importData(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try{
-      const backup = JSON.parse(e.target.result);
-      if(!backup.data) throw new Error('Invalid backup format');
-      Object.assign(ST, backup.data);
-      sv();
-      render();
-      alert('✅ Data restored! Your planner is back. 🎉');
-      document.getElementById('importFile').value = '';
-    }catch(err){
-      alert('❌ Error restoring backup: '+err.message);
-    }
-  };
-  reader.readAsText(file);
+  saveToCloud();
 }
 
 // ── QUOTES ──
 function newQuote(){
   ST.quoteIdx=(ST.quoteIdx+1)%QUOTES.length;
-  window.storage.set('p26_qi',String(ST.quoteIdx)).catch(()=>{});
   document.getElementById('quoteText').textContent=QUOTES[ST.quoteIdx];
+  sv();
 }
 function initQuote(){
   document.getElementById('quoteText').textContent=QUOTES[ST.quoteIdx||0];
@@ -1072,7 +1030,6 @@ function rLife(){
     btn.onclick=()=>{ST.lifeDay=d;rLife();};
     nav.appendChild(btn);
   });
-  // mood
   const d=ST.lifeDay;
   const moodRow=document.getElementById('moodRow');
   moodRow.innerHTML='';
@@ -1083,7 +1040,6 @@ function rLife(){
     btn.onclick=()=>{ST.mood[d]=ST.mood[d]===m?null:m;sv();rLife();};
     moodRow.appendChild(btn);
   });
-  // note
   const noteArea=document.getElementById('noteArea');
   noteArea.value=ST.notes[d]||'';
   noteArea.dataset.day=d;
@@ -1136,7 +1092,7 @@ function render(){
   rHab();
 }
 
-load();
+if(!BIN_ID) initCloud(); else load();
 </script>
 </body>
 </html>
