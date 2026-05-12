@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My May Planner 🌸</title>
+<title>Mon Planning Mai 🌸</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -467,7 +467,7 @@
   .subj-pct { font-size: 14px; font-weight: 700; }
   .subj-bar-track { height: 4px; background: var(--border); border-radius: 4px; margin-top: 10px; overflow: hidden; }
   .subj-bar-fill { height: 100%; border-radius: 4px; transition: width .4s; }
-  .subj-topics { padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--sky-pale); }
+  .subj-sujets { padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--sky-pale); }
   .topic-item {
     display: flex;
     align-items: center;
@@ -630,26 +630,26 @@
   <div class="header">
     <div class="header-top">
       <div>
-        <p class="header-label">✨ My Planner</p>
+        <p class="header-label">✨ Mon Planning</p>
         <h1>May 2026 🌸</h1>
-        <p class="header-sub">19 days · 152h goal · 1 day off (Eid)</p>
+        <p class="header-sub">19 jours · Objectif 152h · 1 jour de repos (Aïd)</p>
       </div>
       <div class="header-progress">
         <div class="big-num" id="totalHrs">0h</div>
-        <div class="label">of 152h</div>
+        <div class="label">sur 152h</div>
       </div>
     </div>
     <div class="quote-banner">
       <i class="ti ti-quote q-icon"></i>
-      <div class="q-text" id="quoteText">Loading your daily inspiration...</div>
-      <button class="q-refresh" onclick="newQuote()" title="New quote"><i class="ti ti-refresh"></i></button>
+      <div class="q-text" id="quoteText">Chargement de ton inspiration du jour...</div>
+      <button class="q-refresh" onclick="newQuote()" title="Nouvelle citation"><i class="ti ti-refresh"></i></button>
     </div>
   </div>
 
   <!-- PROGRESS BAR -->
   <div class="prog-bar-wrap">
     <div class="prog-bar-row">
-      <span>Study progress</span>
+      <span>Progression des études</span>
       <span id="progPct">0%</span>
     </div>
     <div class="prog-bar-track"><div class="prog-bar-fill" id="progFill" style="width:0%"></div></div>
@@ -660,20 +660,20 @@
     <div class="stat-card">
       <div class="icon">📚</div>
       <div class="val" id="s1">0h</div>
-      <div class="lbl">Logged</div>
-      <div class="sub">of 152h</div>
+      <div class="lbl">Enregistré</div>
+      <div class="sub">sur 152h</div>
     </div>
     <div class="stat-card">
       <div class="icon">☀️</div>
       <div class="val" id="s2">0</div>
-      <div class="lbl">Days worked</div>
-      <div class="sub">of 19</div>
+      <div class="lbl">Jours travaillés</div>
+      <div class="sub">sur 19</div>
     </div>
     <div class="stat-card">
       <div class="icon">⚡</div>
       <div class="val" id="s3">—</div>
-      <div class="lbl">Daily avg</div>
-      <div class="sub">target 8h</div>
+      <div class="lbl">Moy. journalière</div>
+      <div class="sub">objectif 8h</div>
     </div>
   </div>
 
@@ -681,25 +681,25 @@
   <div class="tabs">
     <button class="tab-btn on" onclick="swTab('tc-plan',this)"><i class="ti ti-calendar"></i> Planning</button>
     <button class="tab-btn" onclick="swTab('tc-study',this)"><i class="ti ti-books"></i> Matières</button>
-    <button class="tab-btn" onclick="swTab('tc-life',this)"><i class="ti ti-heart"></i> Life</button>
-    <button class="tab-btn" onclick="swTab('tc-habits',this)"><i class="ti ti-sun"></i> Habits</button>
+    <button class="tab-btn" onclick="swTab('tc-life',this)"><i class="ti ti-heart"></i> Vie</button>
+    <button class="tab-btn" onclick="swTab('tc-habits',this)"><i class="ti ti-sun"></i> Habitudes</button>
   </div>
 
   <!-- TAB: PLANNING -->
   <div class="tab-content on" id="tc-plan">
-    <p class="sec-label"><i class="ti ti-calendar-event"></i> Click a day to log hours</p>
+    <p class="sec-label"><i class="ti ti-calendar-event"></i> Clique sur un jour pour noter tes heures</p>
     <div class="cal-grid" id="calGrid"></div>
     <div id="dayEditor"></div>
 
     <!-- DAILY TO-DO -->
     <div class="todo-section">
       <div class="todo-header">
-        <p class="sec-label" style="margin:0"><i class="ti ti-check"></i> To-do — May <span id="todoDay">—</span></p>
+        <p class="sec-label" style="margin:0"><i class="ti ti-check"></i> Tâches — Mai <span id="todoDay">—</span></p>
         <span class="badge badge-sky" id="todoBadge">0 / 0</span>
       </div>
       <div class="todo-input-row">
-        <input class="todo-input" id="todoInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()">
-        <button class="todo-add-btn" onclick="addTodo()">+ Add</button>
+        <input class="todo-input" id="todoInput" placeholder="Ajouter une tâche..." onkeydown="if(event.key==='Enter')addTodo()">
+        <button class="todo-add-btn" onclick="addTodo()">+ Ajouter</button>
       </div>
       <div id="todoList"></div>
     </div>
@@ -708,31 +708,31 @@
   <!-- TAB: STUDY SUBJECTS -->
   <div class="tab-content" id="tc-study">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <p class="sec-label" style="margin:0"><i class="ti ti-checklist"></i> Academic topics</p>
-      <span class="badge badge-sky" id="topicsBadge">0 / 0</span>
+      <p class="sec-label" style="margin:0"><i class="ti ti-checklist"></i> Sujets académiques</p>
+      <span class="badge badge-sky" id="sujetsBadge">0 / 0</span>
     </div>
     <div id="subjList"></div>
   </div>
 
   <!-- TAB: PERSONAL LIFE -->
   <div class="tab-content" id="tc-life">
-    <p class="sec-label"><i class="ti ti-sparkles"></i> Select a day</p>
+    <p class="sec-label"><i class="ti ti-sparkles"></i> Sélectionne un jour</p>
     <div class="day-nav" id="lifeNav"></div>
     <div class="personal-grid">
       <div class="personal-card">
-        <div class="personal-card-title"><i class="ti ti-mood-happy"></i> Mood</div>
+        <div class="personal-card-title"><i class="ti ti-mood-happy"></i> Humeur</div>
         <div class="mood-row" id="moodRow"></div>
       </div>
       <div class="personal-card">
-        <div class="personal-card-title"><i class="ti ti-notebook"></i> Note of the day</div>
-        <textarea class="note-area" id="noteArea" placeholder="How was your day? ✨" oninput="saveNote()"></textarea>
+        <div class="personal-card-title"><i class="ti ti-notebook"></i> Note du jour</div>
+        <textarea class="note-area" id="noteArea" placeholder="Comment s'est passée ta journée ? ✨" oninput="saveNote()"></textarea>
       </div>
     </div>
   </div>
 
   <!-- TAB: HABITS -->
   <div class="tab-content" id="tc-habits">
-    <p class="sec-label"><i class="ti ti-sun"></i> Daily habits — select a day</p>
+    <p class="sec-label"><i class="ti ti-sun"></i> Habitudes du jour — sélectionne un jour</p>
     <div class="day-nav" id="habNav"></div>
     <div id="habList"></div>
   </div>
@@ -743,21 +743,21 @@
 const DAYS = Array.from({length:19},(_,i)=>i+13);
 const GOAL = 152;
 const HRP = [0,4,5,8,10,12];
-const HRL = {0:'Day off (Eid)',4:'4h — light',5:'5h — mid',8:'8h — good',10:'10h — high',12:'12h — max'};
+const HRL = {0:'Jour de repos (Aïd)',4:'4h — léger',5:'5h — moyen',8:'8h — bien',10:'10h — intense',12:'12h — max'};
 
 const QUOTES = [
-  "Believe in yourself a little more every day. 🌸",
-  "Small steps still move you forward. ✨",
-  "You're doing better than you think. 💙",
-  "Hard days build strong women. 🌊",
-  "Progress, not perfection. 🌷",
-  "You are capable of amazing things. 🦋",
-  "One chapter at a time. 📖",
-  "Rest if you must, but don't you quit. 🌙",
-  "The best view comes after the hardest climb. 🌅",
-  "You've got this, seriously. 💪🩵",
-  "Dream big, study hard, stay kind. 💫",
-  "Every day is a fresh start. 🌸",
+  "Crois en toi un peu plus chaque jour. 🌸",
+  "Les petits pas font aussi avancer. ✨",
+  "Tu t'en sors mieux que tu ne le crois. 💙",
+  "Les jours difficiles forgent les femmes fortes. 🌊",
+  "Le progrès, pas la perfection. 🌷",
+  "Tu es capable de choses extraordinaires. 🦋",
+  "Un chapitre à la fois. 📖",
+  "Repose-toi si tu dois, mais n'abandonne pas. 🌙",
+  "La plus belle vue vient après la montée la plus dure. 🌅",
+  "Tu vas y arriver, vraiment. 💪🩵",
+  "Rêve grand, travaille dur, reste douce. 💫",
+  "Chaque jour est un nouveau départ. 🌸",
 ];
 
 const SUBJ = [
@@ -788,13 +788,13 @@ const SUBJ = [
 ];
 
 const HAB = [
-  {id:'sl',l:'Enough sleep',ic:'🌙'},
-  {id:'fa',l:'Family time (not social media)',ic:'🏠'},
-  {id:'ou',l:'Outdoor break',ic:'🌿'},
-  {id:'wa',l:'Drink enough water',ic:'💧'},
-  {id:'pi',l:'Pilates workout',ic:'🧘‍♀️'},
-  {id:'fo',l:'Disciplined & focused',ic:'🎯'},
-  {id:'co',l:'Consistent over perfect',ic:'🔥'},
+  {id:'sl',l:'Assez de sommeil',ic:'🌙'},
+  {id:'fa',l:'Temps en famille (pas les réseaux)',ic:'🏠'},
+  {id:'ou',l:'Pause en plein air',ic:'🌿'},
+  {id:'wa',l:'Boire assez d\'eau',ic:'💧'},
+  {id:'pi',l:'Séance de Pilates',ic:'🧘‍♀️'},
+  {id:'fo',l:'Disciplinée & concentrée',ic:'🎯'},
+  {id:'co',l:'Régulière plutôt que parfaite',ic:'🔥'},
 ];
 
 const MOODS = ['😊','😌','😐','😔','😤','🥰','😴','💪'];
@@ -802,63 +802,52 @@ const MOODS = ['😊','😌','😐','😔','😤','🥰','😴','💪'];
 let ST = {hrs:{},top:{},hab:{},exp:{},todo:{},notes:{},mood:{},selDay:13,lifeDay:13,quoteIdx:0};
 let edDay = null;
 
-// ── STORAGE WITH AUTO-SYNC TO CLOUD ──
-const CLOUD_API = 'https://api.jsonbin.io/v3/b';
-const BIN_ID = localStorage.getItem('plannerBinId');
+// ── SUPABASE CONFIG ──
+const SB_URL = 'https://rexbjmglliybpuavuxnu.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJleGJqbWdsbGl5YnB1YXZ1eG51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDA3ODUsImV4cCI6MjA5NDE3Njc4NX0.qWxpygo1vBWtq9oNtUrKzx2PBI04jYq3Kl0-ti97Duk';
 
-async function saveToCloud(){
-  if(!BIN_ID) return;
-  const backup = {hrs:ST.hrs,top:ST.top,hab:ST.hab,exp:ST.exp,todo:ST.todo,notes:ST.notes,mood:ST.mood,quoteIdx:ST.quoteIdx};
+async function sbGet(key){
   try{
-    await fetch(`${CLOUD_API}/${BIN_ID}`, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json','X-Master-Key': '$2a$10$n3JdCQEjiBj7AQSUxs7kge4AH3BEzuZ7vWbJ4JxIGVzw3K.kLf9l6'},
-      body: JSON.stringify(backup)
+    const r=await fetch(`${SB_URL}/rest/v1/planner?key=eq.${key}&select=value`,{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+    });
+    const d=await r.json();
+    return d&&d[0]?d[0].value:null;
+  }catch(e){return null;}
+}
+
+async function sbSet(key,value){
+  try{
+    await fetch(`${SB_URL}/rest/v1/planner`,{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
+      body:JSON.stringify({key,value,updated_at:new Date().toISOString()})
     });
   }catch(e){}
 }
 
-async function initCloud(){
-  if(BIN_ID) return;
-  const backup = {hrs:{},top:{},hab:{},exp:{},todo:{},notes:{},mood:{},quoteIdx:0};
-  try{
-    const r = await fetch(CLOUD_API, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json','X-Master-Key': '$2a$10$n3JdCQEjiBj7AQSUxs7kge4AH3BEzuZ7vWbJ4JxIGVzw3K.kLf9l6'},
-      body: JSON.stringify(backup)
-    });
-    const d = await r.json();
-    localStorage.setItem('plannerBinId', d.metadata.id);
-    window.location.reload();
-  }catch(e){}
-}
-
-async function loadFromCloud(){
-  if(!BIN_ID) return;
-  try{
-    const r = await fetch(`${CLOUD_API}/${BIN_ID}`, {
-      headers: {'X-Master-Key': '$2a$10$n3JdCQEjiBj7AQSUxs7kge4AH3BEzuZ7vWbJ4JxIGVzw3K.kLf9l6'}
-    });
-    const d = await r.json();
-    Object.assign(ST, d.record);
-  }catch(e){}
-}
-
+// ── STORAGE ──
 async function load(){
-  await loadFromCloud();
+  const keys = ['hrs','top','hab','todo','notes','mood'];
+  for(const k of keys){
+    const r=await sbGet('p26_'+k);
+    if(r)try{ST[k]=JSON.parse(r);}catch(e){}
+  }
+  const qi=await sbGet('p26_qi');
+  if(qi)ST.quoteIdx=parseInt(qi)||0;
   render();
-  setInterval(saveToCloud, 30000);
 }
 
 function sv(){
-  saveToCloud();
+  const keys = ['hrs','top','hab','todo','notes','mood'];
+  keys.forEach(k=>sbSet('p26_'+k,JSON.stringify(ST[k])));
 }
 
 // ── QUOTES ──
 function newQuote(){
   ST.quoteIdx=(ST.quoteIdx+1)%QUOTES.length;
+  sbSet('p26_qi',String(ST.quoteIdx));
   document.getElementById('quoteText').textContent=QUOTES[ST.quoteIdx];
-  sv();
 }
 function initQuote(){
   document.getElementById('quoteText').textContent=QUOTES[ST.quoteIdx||0];
@@ -886,7 +875,7 @@ function rStats(){
   document.getElementById('s3').textContent=avg==='—'?'—':avg+'h';
   const allTop=SUBJ.flatMap(s=>s.top);
   const dc=allTop.filter(t=>ST.top[t.id]).length;
-  document.getElementById('topicsBadge').textContent=dc+' / '+allTop.length;
+  document.getElementById('sujetsBadge').textContent=dc+' / '+allTop.length;
 }
 
 // ── CALENDAR ──
@@ -927,7 +916,7 @@ function rEditor(){
   const curH=ST.hrs[edDay]||0;
   ed.innerHTML=`<div class="day-editor">
     <div class="day-editor-header">
-      <div class="day-editor-title">May ${edDay}</div>
+      <div class="day-editor-title">Mai ${edDay}</div>
       <button class="close-btn" onclick="edDay=null;rCal()"><i class="ti ti-x"></i></button>
     </div>
     <div class="hrs-chips">
@@ -953,7 +942,7 @@ function rTodo(){
     div.innerHTML=`
       <div class="todo-check${t.done?' on':''}" onclick="toggleTodo(${i})">${t.done?'<i class="ti ti-check" style="font-size:11px;color:white"></i>':''}</div>
       <span class="todo-text${t.done?' done':''}">${t.text}</span>
-      <button class="todo-del" onclick="delTodo(${i})" title="Delete"><i class="ti ti-trash"></i></button>
+      <button class="todo-del" onclick="delTodo(${i})" title="Supprimer"><i class="ti ti-trash"></i></button>
     `;
     list.appendChild(div);
   });
@@ -997,7 +986,7 @@ function rSubj(){
       <div class="subj-header" onclick="tExp('${subj.id}')">
         <div>
           <div class="subj-name">${subj.name}</div>
-          <div class="subj-meta">${subj.sh} · ${dc}/${subj.top.length} topics</div>
+          <div class="subj-meta">${subj.sh} · ${dc}/${subj.top.length} sujets</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px">
           <span class="subj-pct" style="color:${subj.c}">${pct}%</span>
@@ -1005,7 +994,7 @@ function rSubj(){
         </div>
       </div>
       <div class="subj-bar-track"><div class="subj-bar-fill" style="width:${pct}%;background:${subj.c}"></div></div>
-      ${open?`<div class="subj-topics">${subj.top.map(t=>`
+      ${open?`<div class="subj-sujets">${subj.top.map(t=>`
         <div class="topic-item" onclick="tTop('${t.id}')">
           <div class="topic-check${ST.top[t.id]?' on':''}">${ST.top[t.id]?'<i class="ti ti-check" style="font-size:10px;color:white"></i>':''}</div>
           <span class="topic-label${ST.top[t.id]?' done':''}">${t.s?'⭐ ':''}${t.l}</span>
@@ -1030,6 +1019,7 @@ function rLife(){
     btn.onclick=()=>{ST.lifeDay=d;rLife();};
     nav.appendChild(btn);
   });
+  // mood
   const d=ST.lifeDay;
   const moodRow=document.getElementById('moodRow');
   moodRow.innerHTML='';
@@ -1040,6 +1030,7 @@ function rLife(){
     btn.onclick=()=>{ST.mood[d]=ST.mood[d]===m?null:m;sv();rLife();};
     moodRow.appendChild(btn);
   });
+  // note
   const noteArea=document.getElementById('noteArea');
   noteArea.value=ST.notes[d]||'';
   noteArea.dataset.day=d;
@@ -1092,7 +1083,7 @@ function render(){
   rHab();
 }
 
-if(!BIN_ID) initCloud(); else load();
+load();
 </script>
 </body>
 </html>
